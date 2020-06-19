@@ -1,44 +1,72 @@
+import * as pkg from '../package.json';
 import {
+    Extractor, ISearchOptions,
     MediaCollection,
     MediaProvider,
-    SearchResult
+    MediaSource,
+    Movie,
+    SearchResult,
+    SOURCE_TYPE, TvEpisode, TvSeason, TvShow
 } from '@nwplay/core';
+import TestData from "./testData.json";
 
-export class StarterMediaProvider extends MediaProvider {
-    id = 'B83D80F8-3CF4-41B7-BAC1-D11432D47F44';
-    name = 'nwplay-plugin-starter';
-    name_translations = {
-        de: 'nwplay-plugin-starter',
-        en: 'nwplay-plugin-starter',
-    };
-    version = '0.0.1';
+export class StarterPlugin extends MediaProvider {
+    name = pkg.pluginName;
+    version = pkg.version;
+    id = pkg.id;
+    description = pkg.description;
 
     constructor() {
         super();
     }
 
-    async get(id: string) {
-        return null
-    }
-
-    async feature(limit?: number, isHome?: boolean): Promise<SearchResult[]> {
+    public async feature(limit?: number, isHome?: boolean): Promise<SearchResult[]> {
         return [];
     }
 
-    async home(isHome?: boolean): Promise<MediaCollection[]> {
+    public async home(isHome?: boolean): Promise<MediaCollection[]> {
         return [];
     }
 
-    async init() {
-
+    public async search(options: ISearchOptions): Promise<SearchResult[]> {
+        return TestData.filter(e => e.title.toLowerCase().includes(options.query.toLowerCase())).map((d) => new StarterSearchResult(this, d));
     }
 
-    async search(q: string, offset: number = 0, limit: number = 10) {
-        return [];
+    get(id: string): Promise<TvShow | Movie | TvSeason<any> | TvEpisode<any>> {
+        return null;
+    }
+
+    init(): Promise<void> {
+        return Promise.resolve(undefined);
     }
 
     toolbar(): Promise<any[]> {
-        return null;
+        return Promise.resolve([]);
     }
 }
 
+class StarterSearchResult extends SearchResult {
+    constructor(provider: StarterPlugin, private data: any) {
+        super(provider as any);
+        this.id = `movie/${encodeURIComponent(this.data.title)}`;
+        this.title = this.data.title;
+        this.image = this.data.thumb;
+    }
+}
+
+class StarterMovie extends Movie {
+    constructor(provider: StarterPlugin, private data: any) {
+        super(provider as any);
+        this.id = `movie/${encodeURIComponent(this.data.title)}`;
+        this.title = this.data.title;
+        this.poster = this.data.thumb;
+        this.overview = this.data.description;
+    }
+
+    async play(resolvers: Extractor[] | undefined, languages: string[] | undefined): Promise<MediaSource> {
+        return {
+            source: this.data.source,
+            type: SOURCE_TYPE.HTTP
+        };
+    }
+}
