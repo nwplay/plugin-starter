@@ -40,6 +40,7 @@ Bundle of <%= pkg.pluginName %> (<%= pkg.name %>)
 Generated: <%= moment().format('YYYY-MM-DD') %>
 Version: <%= pkg.version %>
 Description: <%= pkg.description %>
+Min Core Version: <%= pkg.devDependencies['@nwplay/core'] %>
 Dependencies:
 <% _.forEach(dependencies, function (dependency) { %>
   <%= dependency.name %> -- <%= dependency.version %>
