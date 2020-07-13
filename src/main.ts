@@ -1,12 +1,16 @@
 import * as pkg from '../package.json';
 import {
-    Extractor, ISearchOptions,
+    Extractor,
+    ISearchOptions,
     MediaCollection,
     MediaProvider,
     MediaSource,
     Movie,
     SearchResult,
-    SOURCE_TYPE, TvEpisode, TvSeason, TvShow
+    SOURCE_TYPE,
+    TvEpisode,
+    TvSeason,
+    TvShow
 } from '@nwplay/core';
 import TestData from "./testData.json";
 

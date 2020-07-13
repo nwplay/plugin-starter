@@ -4,26 +4,17 @@
   "id": "B83D80F8-3CF4-41B7-BAC1-D11432D47F44",
   "description": "NWPlay Plugin Starter",
   "license": "MIT",
-  "version": "0.0.1",
+  "main": "./src/main.ts",
+  "version": "0.0.2",
   "scripts": {
-    "build": "rollup -c",
-    "serve": "rollup -c rollup.serve.js --watch"
+    "build": "npx build-nwplay-plugin",
+    "serve": "npx serve-nwplay-plugin"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
     "rxjs": "^6.6.0"
   },
   "devDependencies": {
-    "@nwplay/core": "^0.0.1-alpha.8",
-    "@rollup/plugin-commonjs": "^13.0.0",
-    "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^8.0.1",
-    "@types/cheerio": "^0.22.18",
-    "rollup": "^2.17.1",
-    "rollup-plugin-license": "^2.1.0",
-    "rollup-plugin-serve": "^1.0.1",
-    "rollup-plugin-terser": "^6.1.0",
-    "rollup-plugin-typescript2": "^0.27.0",
-    "typescript": "^3.8.3"
+    "@nwplay/core": "^0.0.1-alpha.13"
   }
 }
